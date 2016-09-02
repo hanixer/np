@@ -14,8 +14,40 @@ const char *sock_ntop(const struct sockaddr *sockaddr, socklen_t addrlen)
     data = &((sockaddr_in6*)sockaddr)->sin6_addr;
     break;
   default:
-    return 0;
+    return NULL;
   }
   
   return inet_ntop(family, data, str, addrlen);
+}
+
+int sock_bind_wild(int sockfd, int family)
+{
+  (void)sockfd;
+  (void)family;
+  fprintf(stderr, "sock_bind_wild() not implemented");
+  exit(EXIT_FAILURE);
+}
+
+ssize_t readn(int fd, void *buf, size_t nbytes)
+{
+  ssize_t read_rv = 0;
+  size_t read_count = 0;
+  char *ptr = (char*) buf;
+  int remains = nbytes;
+
+  while (remains > 0) {
+    read_rv = read(fd, ptr, remains);
+
+    if (read_rv == -1) 
+      return -1;
+    else if (read_rv == 0)
+      break;
+    else {
+      read_count -= remains;
+      remains -= read_rv;
+      ptr += read_rv;
+    }
+  }
+  
+  return read_count;
 }
