@@ -38,11 +38,11 @@ int main()
   }
   
   for (;;) {
-    printf("EE we goo'\n");
     sockaddr_storage clientaddr;
     socklen_t len;
     memset(&clientaddr, 0, sizeof(clientaddr));
     clientfd = accept(servfd, (sockaddr*)&clientaddr, &len);
+
     printf("accepted--");
     printf("Client addr<%s> \n", sock_ntop((sockaddr*)&clientaddr, len));
     
