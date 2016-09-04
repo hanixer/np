@@ -31,7 +31,7 @@ int sock_bind_wild(int sockfd, int family)
 ssize_t readn(int fd, void *buf, size_t nbytes)
 {
   ssize_t read_rv = 0;
-  size_t read_count = 0;
+  ssize_t total = 0;
   char *ptr = (char*) buf;
   int remains = nbytes;
 
@@ -43,11 +43,65 @@ ssize_t readn(int fd, void *buf, size_t nbytes)
     else if (read_rv == 0)
       break;
     else {
-      read_count -= remains;
+      total += read_rv;
       remains -= read_rv;
       ptr += read_rv;
     }
   }
   
-  return read_count;
+  return total;
+}
+
+ssize_t writen(int fd, const void *buf, size_t nbytes)
+{
+  ssize_t write_rv = 0;
+  ssize_t total = 0;
+  char *ptr = (char*) buf;
+  size_t remains = nbytes;
+
+  while (remains > 0) {
+    write_rv = write(fd, buf, remains);
+
+    if (write_rv == -1)
+      return -1;
+    else if (write_rv == 0)
+      break;
+    else {
+      ptr += write_rv;
+      total += write_rv;
+      remains -= write_rv;
+    }
+  }
+
+  return total;
+}
+
+ssize_t readline(int fd, void *buf, size_t maxlen)
+{
+  char ch;
+  char *ptr = (char*) buf;
+  ssize_t read_rv = 0;
+  size_t i = 1;
+
+  for (; i < maxlen; ++i) {
+      read_rv = read(fd, &ch, 1);
+
+      if (read_rv == -1)
+        return -1;
+      else if (read_rv == 0) {
+          *ptr = 0;
+          return (i - 1);
+      }
+      else {
+          *ptr = ch;
+          ptr++;
+
+          if (ch == '\n')
+            break;
+      }
+  }
+
+  *ptr = 0;
+  
+  return i;
 }
