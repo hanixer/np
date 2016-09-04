@@ -32,7 +32,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    servfd = socket(servaddr->ai_family, servaddr->ai_protocol, 0);
+    servfd = socket(servaddr->ai_family, servaddr->ai_socktype, servaddr->ai_protocol);
     if (servfd == -1) {
         perror("socket() failed");
         exit(EXIT_FAILURE);
