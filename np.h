@@ -32,6 +32,8 @@
 //#include	<net/if_dl.h>
 //#include	<netinet/sctp.h>
 
+const size_t MAX_MSG_LEN = 4 * 1024;
+
 const char *sock_ntop(const struct sockaddr *sockaddr, socklen_t addrlen);
 int sock_bind_wild(int sockfd, int family);
 
