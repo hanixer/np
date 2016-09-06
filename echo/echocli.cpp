@@ -15,10 +15,11 @@ void handle_server(int fd)
             break;
         }
         else if (rv == 0) {
-            puts("Client: Server ended??????");
+            puts("Client: write: Server ended??????");
             break;
         }
         else {
+            puts("Client: try to read");
             rv = readline(fd, buf, MAX_MSG_LEN);
 
             if (rv == -1) {
@@ -26,7 +27,7 @@ void handle_server(int fd)
                 break;
             }
             else if (rv == 0) {
-                puts("Client: Server ended??????");
+                puts("Client: readline: Server ended??????");
                 break;
             }
             else {
