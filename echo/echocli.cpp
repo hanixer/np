@@ -8,19 +8,14 @@ void handle_server(int fd)
     buf[MAX_MSG_LEN - 1] = 0;
     ssize_t rv;
 
-    for (;;) {
-        if (fgets(buf, MAX_MSG_LEN, stdin) == NULL) {
-            puts("User input ended");
-            break;
-        }
-
-        rv = writen(fd, buf, strlen(buf) + 1);
+    while (fgets(buf, MAX_MSG_LEN, stdin) != NULL) {
+        rv = writen(fd, buf, strlen(buf));
         if (rv == -1) {
             perror("written");
             break;
         }
         else if (rv == 0) {
-            puts("Server ended???");
+            puts("Client: Server ended??????");
             break;
         }
         else {
@@ -31,7 +26,7 @@ void handle_server(int fd)
                 break;
             }
             else if (rv == 0) {
-                puts("Server ended??????");
+                puts("Client: Server ended??????");
                 break;
             }
             else {
@@ -56,11 +51,6 @@ int main()
         fprintf(stderr, "getaddrinfo failed: %s", gai_strerror(rv));
         exit(EXIT_FAILURE);
     }
-
-    puts(ADDRESS);
-    puts(ECHO_PORT_STR);
-    puts("What????????????????");
-    printf("client says: %s\n", sock_ntop(ai->ai_addr, ai->ai_addrlen));
 
     sockfd = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
     if (sockfd == -1) {

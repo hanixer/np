@@ -15,6 +15,8 @@ void client_handler(int clientfd)
                 break;
         }
     }
+
+    puts("Server: finish handle loop");
 }
 
 int main()
@@ -64,18 +66,20 @@ int main()
         //clientfd = accept(servfd, (sockaddr*)&clientaddr, &len);
         clientfd = accept(servfd, NULL, NULL);
 
-        printf("accepted--");
-        printf("Client addr<%s> \n", sock_ntop((sockaddr*)&clientaddr, len));
-
         if (clientfd != -1) {
+            printf("accepted--");
+            printf("Client addr<%s> \n", sock_ntop((sockaddr*)&clientaddr, len));
             if (fork() == 0) {
                 close(servfd);
                 client_handler(clientfd);
                 close(clientfd);
+                exit(0);
             }
         }
-        else
+        else {
             perror("accept() failed");
+            break;
+        }
 
         close(clientfd);
     }

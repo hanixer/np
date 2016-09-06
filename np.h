@@ -32,15 +32,18 @@
 //#include	<net/if_dl.h>
 //#include	<netinet/sctp.h>
 
+void (*signal_function_t)(int);
+
 const size_t MAX_MSG_LEN = 4 * 1024;
 
 const char *sock_ntop(const struct sockaddr *sockaddr, socklen_t addrlen);
 int sock_bind_wild(int sockfd, int family);
 
-
 ssize_t readn(int fd, void *buf, size_t nbytes);
 ssize_t writen(int fd, const void *buf, size_t nbytes);
 ssize_t readline(int fd, void *buf, size_t maxlen);
 ssize_t readline2(int fd, void *buf, size_t maxlen);
+
+signal_function_t set_signal(int sig, signal_function_t func);
 
 #endif
