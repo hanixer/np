@@ -3,6 +3,6 @@
 
 #include "np.h"
 
-const char ECHO_PORT_STR[] = "9124";
+const char ECHO_PORT_STR[] = "9876";
 
 #endif // ECHO_HEADER_H

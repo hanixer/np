@@ -108,15 +108,15 @@ ssize_t readline(int fd, void *buf, size_t maxlen)
 
 signal_function_t set_signal(int sig, signal_function_t func)
 {
-    sigaction act, oact;
+    struct sigaction act, oact;
 
-    memset(&act, 0, sizeof(sa));
+    memset(&act, 0, sizeof(act));
     act.sa_handler = func;
     sigemptyset(&act.sa_mask);
 
     if (sigaction(sig, &act, &oact) == -1) {
         perror("sigaction");
-        return NULL;
+        return SIG_ERR;
     }
 
     return oact.sa_handler;

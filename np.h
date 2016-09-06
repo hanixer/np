@@ -32,7 +32,7 @@
 //#include	<net/if_dl.h>
 //#include	<netinet/sctp.h>
 
-void (*signal_function_t)(int);
+typedef void (*signal_function_t)(int);
 
 const size_t MAX_MSG_LEN = 4 * 1024;
 
