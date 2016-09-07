@@ -11,7 +11,7 @@ int main()
 
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_socktype = SOCK_DGRAM;
 
     rv = getaddrinfo(ADDRESS, UDP_PORT, &hints, &ai);
     if (rv != 0) {
@@ -30,7 +30,9 @@ int main()
     puts("Enter something: ");
     if (fgets(buf, sizeof(buf), stdin) != NULL) {
         printf("Client: you've entered: %s", buf);
-        if (sendto(sockfd, buf, sizeof(buf), 0, ai->ai_addr, ai->ai_addrlen) != -1) {
+        ssize_t sent_count = sendto(sockfd, buf, sizeof(buf), 0, ai->ai_addr, ai->ai_addrlen);
+        if (sent_count != -1) {
+            printf("sent bytes %ld\n", sent_count);
             puts("Client: data sent");
         }
         else {
