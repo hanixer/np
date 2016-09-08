@@ -38,3 +38,6 @@ target_link_libraries(echocli04 np)
 
 add_executable(echocli05 echocli05.cpp ${${PROJECT_NAME}_headers})
 target_link_libraries(echocli05 np)
+
+add_executable(echocli06 echocli06.cpp ${${PROJECT_NAME}_headers})
+target_link_libraries(echocli06 np)

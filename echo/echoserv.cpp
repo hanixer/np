@@ -60,15 +60,10 @@ int main()
     }
 
     for (;;) {
-        sockaddr_storage clientaddr;
-        socklen_t len;
-        memset(&clientaddr, 0, sizeof(clientaddr));
-        //clientfd = accept(servfd, (sockaddr*)&clientaddr, &len);
         clientfd = accept(servfd, NULL, NULL);
 
         if (clientfd != -1) {
             printf("accepted--");
-            printf("Client addr<%s> \n", sock_ntop((sockaddr*)&clientaddr, len));
             if (fork() == 0) {
                 close(servfd);
                 client_handler(clientfd);

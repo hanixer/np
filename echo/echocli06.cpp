@@ -7,18 +7,35 @@ void handle_server(int fd)
     char buf[MAX_MSG_LEN];
     buf[MAX_MSG_LEN - 1] = 0;
     ssize_t rv;
+    fd_set fdset;
 
-    while (fgets(buf, MAX_MSG_LEN, stdin) != NULL) {
-        rv = writen(fd, buf, strlen(buf));
-        if (rv == -1) {
-            perror("written");
-            break;
+    for (;;) {
+        FD_ZERO(&fdset);
+        FD_SET(fd, &fdset);
+        FD_SET(STDIN_FILENO, &fdset);
+
+        if (select(fd + 1, &fdset, NULL, NULL, NULL) == -1) {
+            perror("select");
+            return;
         }
-        else if (rv == 0) {
-            puts("Client: write: Server ended??????");
-            break;
+
+        if (FD_ISSET(STDIN_FILENO, &fdset)) {
+            puts("Client: std is ready");
+
+            if (fgets(buf, MAX_MSG_LEN, stdin) == NULL) {
+                puts("Client: stop of input");
+                return;
+            }
+
+            rv = writen(fd, buf, strlen(buf));
+            if (rv == -1) {
+                perror("written");
+                break;
+            }
         }
-        else {
+
+        if (FD_ISSET(fd, &fdset)) {
+            puts("Client: server is ready before stdin");
             rv = readline(fd, buf, MAX_MSG_LEN);
 
             if (rv == -1) {
@@ -26,7 +43,7 @@ void handle_server(int fd)
                 break;
             }
             else if (rv == 0) {
-                puts("Client: readline: Server ended??????");
+                puts("Client: readline: Server ended");
                 break;
             }
             else {
