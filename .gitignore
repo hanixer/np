@@ -1,8 +1,2 @@
-*
-!*.cpp
-!*.hpp
-!*.h
-!.gitignore
-!CMakeLists.txt
-!echo
-!udp
+*build
+*.user
