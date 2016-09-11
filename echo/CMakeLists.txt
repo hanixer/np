@@ -24,6 +24,9 @@ target_link_libraries(echoserv04 np)
 add_executable(echoserv05 echoserv05.cpp ${${PROJECT_NAME}_headers})
 target_link_libraries(echoserv05 np)
 
+add_executable(echoserv07 echoserv07.cpp ${${PROJECT_NAME}_headers})
+target_link_libraries(echoserv07 np)
+
 #add_executable(echoservsum echoservsum.cpp ${${PROJECT_NAME}_headers})
 #target_link_libraries(echoservsum np)
 
@@ -41,3 +44,6 @@ target_link_libraries(echocli05 np)
 
 add_executable(echocli06 echocli06.cpp ${${PROJECT_NAME}_headers})
 target_link_libraries(echocli06 np)
+
+add_executable(echocli07 echocli07.cpp ${${PROJECT_NAME}_headers})
+target_link_libraries(echocli07 np)
