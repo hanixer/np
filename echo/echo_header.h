@@ -3,7 +3,7 @@
 
 #include "np.h"
 
-const char ECHO_PORT_STR[] = "8783";
+const char ECHO_PORT_STR[] = "5678";
 
 struct sum_args
 {
