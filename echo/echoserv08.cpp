@@ -34,6 +34,14 @@ int main()
     int maxi;
     pollfd pfd_set[FOPEN_MAX];
 
+    rlimit rlim;
+    getrlimit(RLIMIT_NOFILE, &rlim);
+    printf("nofile limit: cur %d, max %d\n", rlim.rlim_cur, rlim.rlim_max);
+    rlim.rlim_cur = rlim.rlim_max;
+    setrlimit(RLIMIT_NOFILE, &rlim);
+    getrlimit(RLIMIT_NOFILE, &rlim);
+    printf("nofile limit changed: cur %d, max %d\n", rlim.rlim_cur, rlim.rlim_max);
+
     servfd = create_tcp_listen_sock(ECHO_PORT_STR);
     if (servfd ==  -1) {
         puts("socket creation failed");

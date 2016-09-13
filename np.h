@@ -22,6 +22,7 @@
 #include	<sys/select.h>	/* for convenience */
 #include	<sys/param.h>	/* OpenBSD prereq for sysctl.h */
 #include	<sys/sysctl.h>
+#include    <sys/resource.h>
 #include	<poll.h>		/* for convenience */
 //#include	<sys/event.h>	/* for kqueue */
 #include	<strings.h>		/* for convenience */
