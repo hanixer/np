@@ -47,4 +47,5 @@ ssize_t readline2(int fd, void *buf, size_t maxlen);
 
 signal_function_t set_signal(int sig, signal_function_t func);
 
+int create_tcp_listen_sock(const char *port_str);
 #endif

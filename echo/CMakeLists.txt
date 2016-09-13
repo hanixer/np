@@ -27,6 +27,9 @@ target_link_libraries(echoserv05 np)
 add_executable(echoserv07 echoserv07.cpp ${${PROJECT_NAME}_headers})
 target_link_libraries(echoserv07 np)
 
+add_executable(echoserv08 echoserv08.cpp ${${PROJECT_NAME}_headers})
+target_link_libraries(echoserv08 np)
+
 #add_executable(echoservsum echoservsum.cpp ${${PROJECT_NAME}_headers})
 #target_link_libraries(echoservsum np)
 

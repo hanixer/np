@@ -121,3 +121,42 @@ signal_function_t set_signal(int sig, signal_function_t func)
 
     return oact.sa_handler;
 }
+
+int create_tcp_listen_sock(const char *port_str)
+{
+    const int QUEUE_SIZE = 5;
+    addrinfo hints, *servaddr;
+    int rv;
+    int servfd;
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+
+    rv = getaddrinfo(NULL, port_str, &hints, &servaddr);
+    if (rv != 0) {
+        puts(gai_strerror(rv));
+        return -1;
+    }
+
+    servfd = socket(servaddr->ai_family, servaddr->ai_socktype, servaddr->ai_protocol);
+    if (servfd == -1) {
+        perror("socket");
+        return -1;
+    }
+
+    rv = bind(servfd, (sockaddr*)servaddr->ai_addr, servaddr->ai_addrlen);
+    if (rv != 0) {
+        perror("bind");
+        return -1;
+    }
+
+    freeaddrinfo(servaddr);
+
+    rv = listen(servfd, QUEUE_SIZE);
+    if (rv == -1) {
+        perror("listen");
+        return -1;
+    }
+
+    return servfd;
+}
